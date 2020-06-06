@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Room;
+use App\Http\Resources\RoomResource;
+use App\Model\Hotel;
+use App\Model\Room;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class RoomController extends Controller
 {
@@ -12,19 +15,9 @@ class RoomController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Hotel $hotel)
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return RoomResource::collection($hotel->rooms);
     }
 
     /**
@@ -33,53 +26,46 @@ class RoomController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Hotel $hotel,Request $request)
     {
-        //
+        $room = $hotel->rooms()->create($request->all());
+        return response(new RoomResource($room), Response::HTTP_CREATED);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Room  $room
+     * @param  \App\Model\Room  $room
      * @return \Illuminate\Http\Response
      */
-    public function show(Room $room)
+    public function show(Hotel $hotel,Room $room)
     {
-        //
+        return new RoomResource($room);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Room  $room
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Room $room)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Room  $room
+     * @param  \App\Model\Room  $room
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Room $room)
+    public function update(Hotel $hotel,Request $request, Room $room)
     {
-        //
+        $room->update($request->all());
+        return response(['error'=> false ,'message' => 'updated successfully'], Response::HTTP_ACCEPTED);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Room  $room
+     * @param  \App\Model\Room  $room
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Room $room)
+    public function destroy(Hotel $hotel,Room $room)
     {
-        //
+        $room->delete();
+        return response(['error'=> false ,'message' => 'deleted successfully'], Response::HTTP_OK);
     }
 }

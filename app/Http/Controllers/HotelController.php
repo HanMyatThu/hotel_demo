@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Hotel;
+use App\Model\Hotel;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class HotelController extends Controller
 {
@@ -14,17 +15,7 @@ class HotelController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return Hotel::latest()->get();
     }
 
     /**
@@ -35,7 +26,8 @@ class HotelController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Hotel::create($request->all());
+        return response(['error'=> false ,'message' => 'created successfully'], Response::HTTP_OK);
     }
 
     /**
@@ -46,7 +38,7 @@ class HotelController extends Controller
      */
     public function show(Hotel $hotel)
     {
-        //
+        return $hotel;
     }
 
     /**
@@ -57,7 +49,7 @@ class HotelController extends Controller
      */
     public function edit(Hotel $hotel)
     {
-        //
+
     }
 
     /**
@@ -69,7 +61,8 @@ class HotelController extends Controller
      */
     public function update(Request $request, Hotel $hotel)
     {
-        //
+        $hotel->update($request->all());
+        return response(['error' => false, 'message' => 'Updated Successfully'],Response::HTTP_ACCEPTED);
     }
 
     /**
@@ -80,6 +73,7 @@ class HotelController extends Controller
      */
     public function destroy(Hotel $hotel)
     {
-        //
+        $hotel->delete();
+        return response(['error'=> false ,'message' => 'hotel deleted'],Response::HTTP_OK);
     }
 }

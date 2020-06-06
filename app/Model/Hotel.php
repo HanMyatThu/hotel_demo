@@ -10,4 +10,11 @@ class Hotel extends Model
     {
         return $this->hasMany(Room::class);
     }
+
+    public function getRouteKeyName()
+    {
+        return 'name';
+    }
+
+    protected $guarded = [];
 }
