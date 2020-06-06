@@ -16,4 +16,6 @@ class BookingRequest extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    protected $guarded = [];
 }

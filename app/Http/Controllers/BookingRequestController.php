@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\BookingRequest;
+use App\Model\BookingRequest;
+use App\Model\Booking;
+use App\Http\Resources\BookingRequestResource;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class BookingRequestController extends Controller
 {
@@ -14,17 +17,7 @@ class BookingRequestController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return BookingRequestResource::collection(BookingRequest::latest()->get());
     }
 
     /**
@@ -41,45 +34,37 @@ class BookingRequestController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\BookingRequest  $bookingRequest
+     * @param  \App\Model\BookingRequest  $bookingRequest
      * @return \Illuminate\Http\Response
      */
     public function show(BookingRequest $bookingRequest)
     {
-        //
+        return new BookingRequestResource($bookingRequest);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\BookingRequest  $bookingRequest
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(BookingRequest $bookingRequest)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\BookingRequest  $bookingRequest
+     * @param  \App\Model\BookingRequest  $bookingRequest
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, BookingRequest $bookingRequest)
     {
-        //
+        $bookingRequest->update($request->all());
+        return response(['error'=> false ,'message' => 'created successfully'],Response::HTTP_OK);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\BookingRequest  $bookingRequest
+     * @param  \App\Model\BookingRequest  $bookingRequest
      * @return \Illuminate\Http\Response
      */
     public function destroy(BookingRequest $bookingRequest)
     {
-        //
+        $bookingRequest->delete();
+        return response(['error'=> false ,'message' => 'booking deleted'],Response::HTTP_OK);
     }
 }

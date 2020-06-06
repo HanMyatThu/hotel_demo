@@ -41,16 +41,6 @@ class HotelController extends Controller
         return $hotel;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Hotel  $hotel
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Hotel $hotel)
-    {
-
-    }
 
     /**
      * Update the specified resource in storage.
